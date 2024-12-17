@@ -2,6 +2,7 @@ const express = require("express")
 require("dotenv").config()
 const mongoose = require("mongoose")
 const cors = require("cors")
+const path = require("path")
 const cookieParser = require("cookie-parser")
 const { adminProtected, customerProtected } = require("./middlewares/protected.middleware")
 
@@ -19,7 +20,7 @@ app.use("/api/public", require("./routes/public.routes"))
 app.use("/api/customer", customerProtected, require("./routes/customer.routes"))
 
 app.use("*", (req, res) => {
-    res.status(404).json({ message: "resource not found" })
+    res.sendFile(path.join(__dirname, "dist", "index.html"))
 })
 
 mongoose.connect(process.env.MONGO_URL)
